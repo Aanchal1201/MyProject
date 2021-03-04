@@ -116,7 +116,6 @@
     let month = ("0" + (today.getMonth()+1)).slice(-2);
     let day = ("0" + today.getDate()).slice(-2);
     let maxDate = `${year}-${month}-${day}`;
-
     dob.setAttribute("max",maxDate);
     
     let dobDate = new Date("{{myprofile.Dob}}")

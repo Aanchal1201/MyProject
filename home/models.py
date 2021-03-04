@@ -24,7 +24,7 @@ class UserProfile(models.Model):
     phoneNumber = models.CharField(blank=True,null=True,max_length=12)
     Gender = models.CharField(choices=GENDER_CHOICES,max_length=50,blank=True)
     Dob = models.DateField(auto_now_add=False,auto_now=False,blank=True,null=True)
-    JoiningDate = models.DateTimeField(auto_now=True)
+    JoiningDate = models.DateTimeField(auto_now_add=True)
     Country = models.CharField(max_length=100,blank=True, null=True)
     State = models.CharField(max_length=100,blank=True, null=True)
     District = models.CharField(max_length=100,blank=True, null=True)

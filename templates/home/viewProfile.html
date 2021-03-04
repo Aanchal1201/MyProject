@@ -59,9 +59,9 @@
             </div>
         </div>
         <div class="profile-element">
-            <div class="small-text">Joined </div>
+            <div class="small-text">Joining </div>
             <div> 
-                <span>{{myprofile.JoiningDate}}</span>
+                <span id="joining">{{myprofile.JoiningDate.isoformat}}</span>
             </div>
         </div>
         <div class="profile-element">
@@ -138,4 +138,5 @@
         }
     })
 </script>
+<script src="{% static 'js/JoiningDate.js' %}"></script>
 {% endblock body %}
