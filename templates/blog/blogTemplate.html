@@ -1,0 +1,18 @@
+<div class="row mb-2">
+  {% for post in allposts %}
+        <div class="col-md-12">
+          <div class="card flex-md-row mb-4 box-shadow h-md-250">
+            <div class="card-body d-flex flex-column align-items-start">
+              <h4 class="mb-0">
+                {{post.title}}
+              </h4>
+              <div class="mb-1 text-muted">{{post.timeStamp.date}} by {{post.author}}</div>
+              {% comment %} <p class="card-text mb-auto">{{post.content |safe | truncatechars:50}}</p> {% endcomment %}
+              <br>
+               <a href="/blog/{{post.slug}}" role="button" class="btn btn-primary m-2">Read More</a>
+            </div>
+            <img class="card-img-right flex-auto d-none d-md-block" data-src="holder.js/200x250?theme=thumb" style="width: 200px; height: 150px; object-fit:cover;" src="/media/{{post.image}}" data-holder-rendered="true">
+          </div>
+        </div>
+      {% endfor %}
+      </div>

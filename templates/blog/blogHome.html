@@ -1,0 +1,16 @@
+{% extends 'home/base.html' %} 
+{% block title %} All Blogs {% endblock title %}
+{% block css %}
+<style></style>
+{% endblock css %} 
+{% if not user.is_authenticated %}
+{% block blogactive %} active {% endblock blogactive %}
+{% endif %}
+{% block body %} 
+
+<div class="container my-4">
+<h3>Read Our Blogs</h3>
+    {% include 'blog/blogTemplate.html' %}
+</div>
+
+{% endblock body %}

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
+
+  {% block css %}
+
+  {% endblock css %}
+  <style>
+    .footer {
+      background-color: #343a40;
+      color: white;
+      text-align: center;
+      padding: 8px;
+    }
+  </style>
+
+  <title>{% block title %} {% endblock title %}</title>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/">No Logo</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item {% block homeactive %}
+        {% endblock homeactive %}">
+          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item {% block aboutactive %}
+        {% endblock aboutactive %}">
+          <a class="nav-link" href="/about">About</a>
+        </li>
+        <li class="nav-item {% block contactactive %}
+        {% endblock contactactive %}">
+          <a class="nav-link" href="/contact">Contact</a>
+        </li>
+      {% if not user.is_authenticated %}
+        <li class="nav-item {% block blogactive %}
+        {% endblock blogactive %}">
+          <a class="nav-link" href="/blog">Blog</a>
+        </li>
+
+{% else %}
+        <div class=" nav-item dropdown mx-2">
+        <a class=" dropdown-toggle nav-link" id="menu1" data-toggle="dropdown" href="#">Blog
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu p-2" role="menu" aria-labelledby="menu1">
+          <li><a href="/blog">Read Blogs</a></li>
+          <li ><a href="/blog/writeBlog/" >Write Blogs</a></li>
+         
+        </ul>
+        </div>
+{% endif %}
+      </ul>
+      <form class="form-inline my-2 my-lg-0" method="get" action="/blog/search/">
+      <form class="form-inline my-2 my-lg-0" method="get" action="#">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query"
+          id="query" />
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+          Search
+        </button>
+      </form>
+      <!-- <a href="/admin" role="button" target="_blank" class="btn btn-primary m-2">Admin Panel</a> -->
+
+      {% if not user.is_authenticated %}
+
+      <a href="/account/signup" role="button" class="btn btn-primary m-2">Sign Up</a>
+      <a href="/account/login" role="button" class="btn btn-primary m-2">Login</a>
+
+      {% else %}
+
+      <div class="dropdown mx-2">
+        <button class="btn btn-default dropdown-toggle" type="button" id="menu1" data-toggle="dropdown">Welcome {{request.user}}
+        <span class="caret"></span></button>
+        <ul class="dropdown-menu p-2" role="menu" aria-labelledby="menu1">
+          <li><a href="/account/logout">Logout</a></li>
+          <li ><a href="/account/changePass" >Change Password</a></li>
+         
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+  </nav>
+  {% for message in messages %}
+  <div class="alert alert-{{message.tags}} alert-dismissible fade show m-0" role="alert">
+    <strong>Message: </strong> {{message}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endfor %}
+ 
+
+  <div style="min-height: 90vh;">
+    {% block body %}
+    {% endblock body %}
+  </div>
+
+  <footer class="footer">
+    <span>Icoder: Footer copyright &copy;2020</span>
+  </footer>
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+    integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+    crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+    crossorigin="anonymous"></script>
+</body>
+
+</html>

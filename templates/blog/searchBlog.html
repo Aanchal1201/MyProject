@@ -1,0 +1,17 @@
+{% extends 'home/base.html' %} 
+{% block title %} Search Results for {{query}} {% endblock title %}
+{% block css %}
+<style></style>
+{% endblock css %} 
+{% block body %} 
+
+<div class="container my-4">
+<h3 my-2>Search Result for <b>"{{query}}"</b> </h3>
+
+{% if allposts|length < 1 %}
+    <p>Your search <strong style="font-size:25px">{{query}}</strong> didnot match with our blogs</p>
+    <p>Note: <strong> Try Different Keywords</strong></p>
+{% endif %}
+    {% include 'blog/blogTemplate.html' %}
+</div>
+{% endblock body %}

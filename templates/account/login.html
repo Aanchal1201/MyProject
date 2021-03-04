@@ -1,0 +1,32 @@
+{% extends 'home/base.html' %}
+
+{% block title %} Login {% endblock title %}
+
+{% block css %}
+<style>
+
+</style>
+{% endblock css %}
+
+{% block body %}
+<div class="container mb-4" style="max-width:400px">
+<h2 class="text-center my-4">Login</h2>
+<form action="/account/login/" method="post">
+{% csrf_token %}
+  <div class="mb-3">
+    <label for="username" class="form-label">Username/Email<span class="text-danger">*</span></label>
+    <input type="text" class="form-control" id="username" name="username" required>
+  </div>
+  <div class="mb-3">
+    <label for="password" class="form-label">Password<span class="text-danger">*</span></label>
+    <input type="password" class="form-control" id="password" name="password" required>
+  </div>
+
+  <button type="submit" class="btn btn-success btn-block">Submit</button>
+  <div class="text-center">
+  <div>Not Registered Yet?  <a href="/account/signup" role="button" class="btn btn-primary m-2">Sign Up</a></div>
+  </div>
+  <p><a href="{% url 'password_reset' %}">Forgot your password?</a></p>
+</form>
+</div>
+{% endblock body %}
