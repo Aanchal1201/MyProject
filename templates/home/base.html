@@ -5,7 +5,7 @@
   <!-- Required meta tags -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous">
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
     integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" />
@@ -22,7 +22,7 @@
     }
   </style>
 
-  <title>{% block title %} {% endblock title %}</title>
+  <title>(MyProject) | {% block title %} {% endblock title %}</title>
 </head>
 
 <body>
@@ -39,41 +39,43 @@
         {% endblock homeactive %}">
           <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
         </li>
+        
         <li class="nav-item {% block aboutactive %}
         {% endblock aboutactive %}">
           <a class="nav-link" href="/about">About</a>
         </li>
+
         <li class="nav-item {% block contactactive %}
         {% endblock contactactive %}">
           <a class="nav-link" href="/contact">Contact</a>
         </li>
+
       {% if not user.is_authenticated %}
+
         <li class="nav-item {% block blogactive %}
         {% endblock blogactive %}">
           <a class="nav-link" href="/blog">Blog</a>
         </li>
 
-{% else %}
+      {% else %}
+
         <div class=" nav-item dropdown mx-2">
         <a class=" dropdown-toggle nav-link" id="menu1" data-toggle="dropdown" href="#">Blog
         <span class="caret"></span></a>
         <ul class="dropdown-menu p-2" role="menu" aria-labelledby="menu1">
           <li><a href="/blog">Read Blogs</a></li>
           <li ><a href="/blog/writeBlog/" >Write Blogs</a></li>
-         
         </ul>
         </div>
-{% endif %}
+
+      {% endif %}
+
       </ul>
+
       <form class="form-inline my-2 my-lg-0" method="get" action="/blog/search/">
-      <form class="form-inline my-2 my-lg-0" method="get" action="#">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query"
-          id="query" />
-        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-          Search
-        </button>
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="query" id="query" />
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
       </form>
-      <!-- <a href="/admin" role="button" target="_blank" class="btn btn-primary m-2">Admin Panel</a> -->
 
       {% if not user.is_authenticated %}
 
@@ -88,12 +90,14 @@
         <ul class="dropdown-menu p-2" role="menu" aria-labelledby="menu1">
           <li><a href="/account/logout">Logout</a></li>
           <li ><a href="/account/changePass" >Change Password</a></li>
-         
+          <li ><a href="/viewProfile" >View Profile</a></li>
         </ul>
       </div>
+
       {% endif %}
     </div>
   </nav>
+
   {% for message in messages %}
   <div class="alert alert-{{message.tags}} alert-dismissible fade show m-0" role="alert">
     <strong>Message: </strong> {{message}}
@@ -103,15 +107,16 @@
   </div>
   {% endfor %}
  
-
   <div style="min-height: 90vh;">
     {% block body %}
+
     {% endblock body %}
   </div>
 
   <footer class="footer">
-    <span>Icoder: Footer copyright &copy;2020</span>
+    <span> (MyProject): Footer copyright &copy;2020</span>
   </footer>
+
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 
@@ -124,6 +129,7 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
     integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
     crossorigin="anonymous"></script>
+
 </body>
 
 </html>

@@ -1,0 +1,157 @@
+{% extends 'home/base.html' %}
+
+{% block title %} View Author Profile {% endblock title %}
+
+{% block css %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/profile.css' %}">
+<style>
+
+</style>
+{% endblock css %}
+
+{% block body %}
+<div class="container-fluid p-0">
+
+    {% if profileHide %}
+    <div style="min-height:100vh;" class="text-center m-3">
+        <h2><strong style="font-size: 1.2em;border-bottom:2px solid grey">{{username}}</strong> profile is not Public. </h2>
+    </div>
+    {% else %}
+
+    <div class="timeline-image">
+        <img src="/media/{{myprofile.coverImage}}" alt="timeline">
+    </div>
+
+    <div class="container profile-container">
+        {% if edit %}
+        <div class="edit-block">
+            <span><a href="/blog/editAuthorProfile/" role="button" class="btn btn-primary m-2">Edit</a></span>
+        </div>
+        {% endif %}
+        <div class="left-profile-block">
+            <div class="profile-element">
+                <div class="small-text">Author Name</div>
+                <div class="big">
+                    <span>{{myuser.first_name}}</span>
+                    <span>{{myuser.last_name}}</span>
+                </div>
+            </div>
+            <div class="profile-element">
+                <div class="small-text">Username </div>
+                <div>
+                    <span>{{myuser.username}}</span>
+                </div>
+            </div>
+            <div class="profile-element">
+                <div class="small-text">Email Id </div>
+                <div>
+                    <span>{{myuser.email}}</span>
+                </div>
+            </div>
+            <div class="profile-element">
+                <div class="small-text ">Gender</div>
+                <div class="text-lowercase">
+                    <span>{{myprofile.Gender}}</span>
+                </div>
+            </div>
+            <div class="profile-element">
+                <div class="small-text">DOB</div>
+                <div>
+                    <span>{{myprofile.Dob}}</span>
+                </div>
+            </div>
+            <div class="profile-element">
+                <div class="small-text">Joined </div>
+                <div>
+                    <span>{{myprofile.JoiningDate}}</span>
+                </div>
+            </div>
+            <div class="profile-element">
+                <div class="small-text">Language Known </div>
+                <div>
+                    <span>{{myprofile.language}}</span>
+                </div>
+            </div>
+            <div class="profile-element">
+                <div class="small-text">Country, City</div>
+                <div>
+                    <span>{{myprofile.Country}}</span>,
+                    <span>{{myprofile.city}}</span>
+                </div>
+            </div>
+
+            <div class="profile-element">
+                <div class="small-text">Bio </div>
+                <div>
+                    "<span>{{myprofile.Bio}}</span>"
+                </div>
+            </div>
+
+            <div class="profile-element">
+                <input type="checkbox" id="checkbox" onclick="return false;" readonly="readonly">
+                <div class="mx-2">Show Profile</div>
+            </div>
+        </div>
+        <div class="right-profile-block">
+            <div class="profile-element">
+                <div class="profile-image">
+                    <img src="/media/{{myprofile.profileImage}}" alt="User Profile picture">
+                </div>
+            </div>
+            <div class="profile-element text-center">
+                <strong><span>{{myprofile.designation}}</span></strong>
+            </div>
+            <div class="profile-element text-center">
+                <span>Blogs({{postCount}})</span>
+            </div>
+            <div class="profile-element text-center">
+                <div class="social-links">
+                    <a href="{{myprofile.facebook_url}}" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="{{myprofile.instagram_url}}" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="{{myprofile.twitter_url}}" target="_blank"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container my-4">
+    <h4 class="m-3">User Blogs</h4>
+    {% if postCount == 0 %}
+    <div>
+        <p style="color:grey">User not publish any post yet!</p>
+    </div>
+    {% else %}
+    <div class="row">
+        {% for post in userPost %}
+        <div class="col-lg-2 col-md-4 col-sm-6">
+            <div class="card">
+                <img src="/media/{{post.image}}" class="card-img-top size" alt="...">
+                <div class="card-body">
+                    <a href="/blog/{{post.slug}}" class="card-title">{{post.title}}</a>
+                    <p class="card-text"><small class="text-muted">{{post.timeStamp.date}}</small></p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endif %}
+</div>
+
+
+<script>
+    if ("{{myprofile.isPublic}}" == 'True') {
+        document.getElementById("checkbox").setAttribute("checked", "")
+    }
+    let spans = document.querySelectorAll(".profile-element span")
+    spans.forEach(span => {
+        console.log(span)
+        if (span.innerHTML == "None") {
+            span.innerHTML = ""
+        }
+    })
+</script>
+{% endif %}
+{% endblock body %}

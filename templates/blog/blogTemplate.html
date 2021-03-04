@@ -6,7 +6,9 @@
               <h4 class="mb-0">
                 {{post.title}}
               </h4>
-              <div class="mb-1 text-muted">{{post.timeStamp.date}} by {{post.author}}</div>
+               <div class="mb-1 text-muted">{{post.timeStamp.date}} by 
+              <a href="/blog/viewAuthorProfile/{{post.authorUsername.username}}"> {{post.author}}</a>
+              </div>
               {% comment %} <p class="card-text mb-auto">{{post.content |safe | truncatechars:50}}</p> {% endcomment %}
               <br>
                <a href="/blog/{{post.slug}}" role="button" class="btn btn-primary m-2">Read More</a>

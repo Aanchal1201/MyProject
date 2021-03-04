@@ -12,4 +12,8 @@ urlpatterns = [
     path('handleEditUserBlog/',views.handleEditUserBlog,name="handleEditUserBlog"),
     
     path('search/',views.search,name="search"),
+    path('viewAuthorProfile/',views.viewAuthorProfile,name="viewAuthorProfile"),
+    path('viewAuthorProfile/<str:profile>',views.viewProfile,name="viewProfile"),
+    path('editAuthorProfile/',views.editAuthorProfile,name="editAuthorProfile"),
+    path('handleEditAuthorProfile/',views.handleEditAuthorProfile,name="handleEditAuthorProfile"),
 ]

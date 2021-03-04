@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect,HttpResponse
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
+from home.models import UserProfile
 
 # Create Registraton View 
 def signup(request):
@@ -27,6 +28,8 @@ def signup(request):
             myuser.first_name = fname
             myuser.last_name = lname
             myuser.save()
+            myprofile = UserProfile(UserUsername=myuser)
+            myprofile.save()
             messages.success(request,"You are registered in our website successfully")
             return redirect('userLogin')
         return render(request,'account/signup.html') 
@@ -76,7 +79,8 @@ def changePass(request):
             elif user is not None:
                 user.set_password(newPass)
                 user.save()
-                messages.success(request,"Password change successfully")
+                login(request,user)
+                messages.success(request,"Password Update successfully")
                 return redirect('home')
             else:
                 messages.error(request,"Your old Password is not correct")
@@ -84,4 +88,3 @@ def changePass(request):
         return render(request,'account/changePassword.html')
     else:
         return redirect('home')
-

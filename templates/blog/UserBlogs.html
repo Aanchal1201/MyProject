@@ -1,20 +1,28 @@
 {% extends 'home/base.html' %} 
-{% block title %} {{user}} Blogs  {% endblock title %}
+{% block title %} Your Blogs {% endblock title %}
 {% block css %}
 <style>
     .size{
         width:auto;
-        height:200px;
+        height:120px;
     }
     .form-inline-block{
         display:inline-block;
         text-align: center;
     }
+    .btn-custom{
+        font-size:13px;
+        padding:6px;
+        margin:4px;
+    }
 </style>
 {% endblock css %} 
 {% block body %} 
  <div class="container my-3">
-    <h2>Your Blogs <span><a href="/blog/addBlog/" role="button" class="btn btn-success m-2">Add Blog</a></span></h2>
+    <h2>Your Blogs 
+    <span><a href="/blog/addBlog/" role="button" class="btn btn-success m-2">Add Blog</a></span>
+    <span><a href="/blog/viewAuthorProfile/" role="button" class="btn btn-success m-2">User Profile</a></span>
+    </h2>
     <hr>
     
     {% if isEmpty %}
@@ -25,40 +33,36 @@
     <div class="row">
     {% for post in userPost %}
 
-        <div class="col-4">
+        <div class="col-3">
             <div class="card">
              <img src="/media/{{post.image}}" class="card-img-top size"  alt="...">
             <div class="card-body">
              <a href="/blog/{{post.slug}}" class="card-title">{{post.title}}</a>
          
-            <p class="card-text"><small class="text-muted">{{post.timeStamp.date}} by {{post.author}} </small></p>
+            <p class="card-text"><small class="text-muted">{{post.timeStamp.date}}</small></p>
             <div style="display: flex;justify-content: space-between;">
             <form action="/blog/deleteUserBlog/" method="POST" class="form-inline-block">
                 {% csrf_token %}
                     <input type="hidden" name="del" value = "{{post.slug}}">
-                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="submit" class="btn btn-danger btn-custom">Delete</button>
             </form>
             <form action="/blog/EditUserBlog/" method="POST" class="form-inline-block">
                 {% csrf_token %}
                     <input type="hidden" name="edit" value = "{{post.slug}}">
-                    <button type="submit" class="btn btn-primary">Edit</button>
+                    <button type="submit" class="btn btn-primary btn-custom">Edit</button>
             </form>
             <div class="form-inline-block">
-                <div class="btn btn-success">{{post.userStatus}}</div>
+                <div class="btn btn-success btn-custom">{{post.userStatus}}</div>
                 <div style="font-size:8px">User Status</div>
             </div>
             <div class="form-inline-block">
-                <div id="author" class="btn btn-success"></div>
+                {% if post.adminStatus %}
+                    <div id="author" class="btn btn-success btn-custom">Yes</div>
+                {% else %}
+                    <div id="author" class="btn btn-success btn-custom">No</div>
+                {% endif %}
+                
                 <div style="font-size:8px">Approved By admin</div>
-                 <script>
-                let adminStatus = "{{post.adminStatus}}";
-                if (adminStatus == "False"){
-                    document.getElementById("author").innerHTML = "No";
-                }
-                else{
-                    document.getElementById("author").innerHTML = "Yes";
-                }
-                </script>
             </div>
             </div>
     
