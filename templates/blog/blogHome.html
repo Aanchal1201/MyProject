@@ -5,6 +5,8 @@
 {% endblock css %} 
 {% if not user.is_authenticated %}
 {% block blogactive %} active {% endblock blogactive %}
+{% else %}
+{% block logBlogactive %}active{% endblock %}
 {% endif %}
 {% block body %} 
 

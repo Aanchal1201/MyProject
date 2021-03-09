@@ -1,0 +1,199 @@
+{% extends 'home/base.html' %}
+
+{% block title %} Quiz Start {% endblock title %}
+
+{% block css %}
+<style>
+    .form-control-plaintext:focus {
+        border: none !important;
+        outline: none !important;
+    }
+
+    .form-control-plaintext {
+        user-select: none;
+    }
+    .buttons button{
+        width:80px;
+    }
+</style>
+{% endblock css %}
+
+{% block quizactive %}active {% endblock %}
+{% block logQuizactive %}active{% endblock %}
+{% block body %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>Important: </strong> Please don't refresh your screen...
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="container my-2" style="max-width: 600px;">
+    <div>
+        <form action="/quiz/handleQuiz" method="post" id="submit">
+            {% csrf_token %}
+            <input type="hidden" name="count" value="{{count}}">
+
+            {% for quiz in myquiz %}
+
+            {% if forloop.first %}
+            <h3 class="d-flex justify-content-between">
+                <span class=" d-inline-block p-2">{{quiz.title}}</span>
+                <span class="d-flex">
+                    <span class="form-control-plaintext">Time: </span>
+                    <input type="text" readonly class="form-control-plaintext" id="time" name="time"
+                        value="{{quiz.title.timeTaken}}" style="width: 190px;">
+                </span>
+            </h3>
+            {% endif %}
+
+
+            <div class="card border-secondary my-4 question-section">
+                <div class="card-header font-weight-bold border-secondary text-light bg-dark">Question {{forloop.counter}}
+                    of {{myquiz.count}}</div>
+                <div class="card-body text-dark">
+                    <h5 class="card-title">{{quiz.Ques}}</h5>
+                    <input type="hidden" name="{{ forloop.counter }}" value="{{quiz.Ques}}">
+                    <p class="card-text">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="quiz{{forloop.counter}}"
+                            value="{{quiz.choice1}}">
+                        <label class="form-check-label" for="{{quiz.choice1}}">
+                            {{quiz.choice1}}
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="quiz{{forloop.counter}}"
+                            value="{{quiz.choice2}}">
+                        <label class="form-check-label" for="{{quiz.choice2}}">
+                            {{quiz.choice2}}
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="quiz{{forloop.counter}}"
+                            value="{{quiz.choice3}}">
+                        <label class="form-check-label" for="{{quiz.choice3}}">
+                            {{quiz.choice3}}
+                        </label>
+                    </div>
+
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="quiz{{forloop.counter}}"
+                            value="{{quiz.choice4}}">
+                        <label class="form-check-label" for="{{quiz.choice4}}">
+                            {{quiz.choice4}}
+                        </label>
+                    </div>
+                    </p>
+                
+                    {% if forloop.last %}
+                    <div class="buttons d-flex justify-content-between">
+                        {% if myquiz.count > 1 %}
+                        
+                        <button type="button" class="btn btn-secondary btn-prev">Prev</button>
+                        {% endif %}
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-success" data-toggle="modal"
+                            data-target="#submitQuiz">Submit</button>
+                    </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="submitQuiz" tabindex="-1" aria-labelledby="submitQuizLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="submitQuizLabel">{{quiz.title}}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Are you sure you want to end the quiz?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Yes</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% elif forloop.first %}
+                    <div class="buttons d-flex justify-content-between">
+                        <button type="button" class="btn btn-primary btn-next">Next</button>
+                    </div>
+                    {% else %}
+                    <div class="buttons d-flex justify-content-between">
+                        <button type="button" class="btn btn-secondary btn-prev">Prev</button>
+                        <button type="button" class="btn btn-primary btn-next">Next</button>
+                    </div>
+                    {% endif %}
+
+                </div>
+            </div>
+
+            {% endfor %}
+        </form>
+    </div>
+</div>
+<script>
+    let mins = document.getElementById("time");
+    let today = new Date().getTime();
+    let comingDate = today + Number(mins.value) * 60 * 1000;
+    let submitForm = document.getElementById("submit");
+
+    function times() {
+        let today = new Date().getTime()
+        let diff = comingDate - today;
+        mins.value = `${(
+            "0" + Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
+        ).slice(-2)}:${("0" + Math.floor((diff % (1000 * 60)) / 1000)).slice(-2)}`;
+
+        if (diff <= 0) {
+            clearInterval(x);
+            submitForm.submit()
+        }
+    }
+    times();
+    var x = setInterval(times, 1000);
+
+    let labels = document.querySelectorAll("label.form-check-label");
+    labels.forEach(label => {
+        label.innerHTML = label.innerHTML.replace(/\\\"/g, "\"");
+        label.innerHTML = label.innerHTML.replace(/\\\\/g, "\\");
+    })
+
+    if (window.history.replaceState) {
+        window.history.replaceState(null,null,window.location.href);
+    }
+
+    let questionSection = document.querySelectorAll(".question-section");
+    let prevBtns = document.querySelectorAll(".btn-prev");
+    let nextBtns = document.querySelectorAll(".btn-next");
+
+    function hide() {
+
+        questionSection.forEach(element => {
+            element.style.display = "None"
+        })
+    }
+    hide();
+    questionSection[0].style.display = "";
+    prevBtns.forEach((element, index) => {
+        element.addEventListener("click", function () {
+            hide()
+            questionSection[index].style.display = "";
+        })
+    })
+    nextBtns.forEach((element, index) => {
+        element.addEventListener("click", function () {
+            hide();
+            questionSection[index + 1].style.display = "";
+        })
+
+    })
+
+</script>
+{% endblock body %}
